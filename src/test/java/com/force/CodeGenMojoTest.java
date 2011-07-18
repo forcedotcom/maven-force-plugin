@@ -111,7 +111,7 @@ public class CodeGenMojoTest extends AbstractMojoTestCase {
 	    
 	    assertObjectCombinationFilter(generator.getObjectFilter(), ObjectNameWithRefFilter.class, ObjectNameFilter.class);
 	    assertObjectNameFilter(retrieveObjectFilter(generator.getObjectFilter(), 1), false /*include*/,
-	            ImmutableSet.<String>of("Opportunity"));
+	            ImmutableSet.<String>of("Contact"));
 	    
 	    assertFieldCombinationFilter(generator.getFieldFilter(), FieldCombinationFilter.class, ForceJPAFieldFilter.class);
         
@@ -119,7 +119,7 @@ public class CodeGenMojoTest extends AbstractMojoTestCase {
         FieldFilter embeddedComboFilter = ((FieldCombinationFilter) generator.getFieldFilter()).getFilterList().get(0);
         assertFieldCombinationFilter(embeddedComboFilter, FieldReferenceFilter.class);
         assertFieldReferenceFilter(((FieldCombinationFilter) embeddedComboFilter).getFilterList().get(0), false /*include*/,
-                ImmutableSet.<String>of("Opportunity"));
+                ImmutableSet.<String>of("Contact"));
 	}
 	
 	@Test

@@ -1,0 +1,32 @@
+<project>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.force.test</groupId>
+  <artifactId>ParentTestPom</artifactId>
+  <version>1.0</version>
+  <packaging>pom</packaging>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>com.force</groupId>
+          <artifactId>maven-force-plugin</artifactId>
+          <configuration>
+            <connectionName>force-test-connection</connectionName>
+          </configuration>
+        
+          <!-- Include this dependency so that we can load the named connection above -->
+          <dependencies>
+            <dependency>
+              <groupId>com.force</groupId>
+              <artifactId>maven-force-plugin</artifactId>
+              <version>22.0.2-SNAPSHOT</version>
+              <classifier>tests</classifier>
+            </dependency>
+          </dependencies>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+</project>

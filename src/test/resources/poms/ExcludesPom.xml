@@ -1,9 +1,15 @@
 <project>
 
+  <parent>
+    <groupId>com.force.test</groupId>
+    <artifactId>ParentTestPom</artifactId>
+    <version>1.0</version>
+    <relativePath>./ParentTestPom.xml</relativePath>
+  </parent>
+
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.force.test</groupId>
-  <artifactId>IncludesExcludes</artifactId>
-  <version>1.0</version>
+  <artifactId>Excludes</artifactId>
 
   <build>
     <plugins>
@@ -11,7 +17,6 @@
         <groupId>com.force</groupId>
         <artifactId>maven-force-plugin</artifactId>
         <configuration>
-          <connectionName>force-test-connection</connectionName>
           <excludes>
             <exclude>Account</exclude>
           </excludes>
