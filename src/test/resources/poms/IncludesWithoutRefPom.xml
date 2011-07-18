@@ -1,0 +1,24 @@
+<project>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.force.test</groupId>
+  <artifactId>IncludesWithoutRef</artifactId>
+  <version>1.0</version>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.force</groupId>
+        <artifactId>maven-force-plugin</artifactId>
+	    <configuration>
+	      <connectionName>force-test-connection</connectionName>
+	      <followReferences>false</followReferences>
+	      <includes>
+	        <include>Account</include>
+	        <include>Opportunity</include>
+	      </includes>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

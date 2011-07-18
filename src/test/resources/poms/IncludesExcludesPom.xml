@@ -1,0 +1,26 @@
+<project>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.force.test</groupId>
+  <artifactId>Excludes</artifactId>
+  <version>1.0</version>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.force</groupId>
+        <artifactId>maven-force-plugin</artifactId>
+        <configuration>
+          <connectionName>force-test-connection</connectionName>
+          <followReferences>true</followReferences>
+          <includes>
+            <include>Account</include>
+          </includes>
+          <excludes>
+            <exclude>Opportunity</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

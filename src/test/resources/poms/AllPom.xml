@@ -1,0 +1,20 @@
+<project>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.force.test</groupId>
+  <artifactId>All</artifactId>
+  <version>1.0</version>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.force</groupId>
+        <artifactId>maven-force-plugin</artifactId>
+        <configuration>
+          <all>true</all>
+          <connectionName>force-test-connection</connectionName>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

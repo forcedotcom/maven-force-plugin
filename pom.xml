@@ -1,0 +1,102 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.force</groupId>
+  <artifactId>maven-force-plugin</artifactId>
+  <name>maven-force-plugin</name>
+  <version>22.0.2-SNAPSHOT</version>
+  <packaging>maven-plugin</packaging>
+  <description>Maven Plugin the Force.com platform</description>
+  <url>http://www.force.com/</url>
+  
+  <licenses>
+    <license>
+      <name>BSD License (BSD 3-Clause)</name>
+      <url>https://github.com/forcedotcom/java-sdk/blob/master/build-tools/src/main/resources/license/header.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  
+  <properties>
+    <java.compile.version>1.6</java.compile.version>
+  </properties>
+  
+  <repositories>
+    <repository>
+      <id>force.repo</id>
+      <name>Force.com Repository</name>
+      <url>http://repo.t.salesforce.com/archiva/repository/releases</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+    </repository>
+    <repository>
+      <id>force.repo.snapshot</id>
+      <name>Force.com Snapshot Repository</name>
+      <url>http://repo.t.salesforce.com/archiva/repository/snapshots</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </repository>
+  </repositories>
+  
+  <build>
+    <testResources>
+      <testResource>
+        <directory>${basedir}/src/test/resources/</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>force-test-connection.properties</include>
+        </includes>
+      </testResource>
+    </testResources>
+  
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>${java.compile.version}</source>
+          <target>${java.compile.version}</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  
+  <dependencies>
+    <dependency>
+      <groupId>com.force.sdk</groupId>
+      <artifactId>force-codegen</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.force.sdk</groupId>
+      <artifactId>force-connector</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.8.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-plugin-api</artifactId>
+      <version>2.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven.plugin-testing</groupId>
+      <artifactId>maven-plugin-testing-harness</artifactId>
+      <version>1.2</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  
+</project>
