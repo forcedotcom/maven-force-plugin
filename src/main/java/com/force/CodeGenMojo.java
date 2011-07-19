@@ -77,7 +77,7 @@ public class CodeGenMojo extends AbstractMojo {
     
     /**
      * Whether to skip codegen execution.
-     * @parameter expression=${skipForceCodeGen} default-value=false
+     * @parameter expression="${skipForceCodeGen}" default-value=false
      */
     private boolean skip;
     
