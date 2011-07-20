@@ -13,7 +13,6 @@ import com.force.sdk.codegen.filter.ObjectCombinationFilter;
 import com.force.sdk.codegen.filter.ObjectNameFilter;
 import com.force.sdk.codegen.filter.ObjectNameWithRefFilter;
 import com.force.sdk.codegen.filter.ObjectNoOpFilter;
-import com.force.sdk.connector.ForceConnectorConfig;
 import com.force.sdk.connector.ForceServiceConnector;
 import com.sforce.soap.partner.PartnerConnection;
 
@@ -29,19 +28,14 @@ public class CodeGenMojo extends AbstractMojo {
     
     /**
      * Named configuration for connecting to Force.com.
-     * @parameter expression="${connectionName}"
+     * @parameter expression="${force.codegen.connectionName}"
+     * @required
      */
     private String connectionName;
     
     /**
-     * Connection URL for connecting to Force.com.
-     * @parameter expression="${connectionUrl}"
-     */
-    private String connectionUrl;
-    
-    /**
      * Use all Force.com objects for generation.
-     * @parameter expression="${all}" default-value=false
+     * @parameter expression="${force.codegen.all}" default-value=false
      */
     private boolean all;
     
@@ -59,21 +53,21 @@ public class CodeGenMojo extends AbstractMojo {
     
     /**
      * Whether to include Force.com object references.
-     * @parameter expression="${followReferences}" default-value=true
+     * @parameter expression="${force.codegen.followReferences}" default-value=true
      */
     private boolean followReferences;
     
     /**
      * Java package name for generated code.
-     * @parameter expression="${packageName}"
+     * @parameter expression="${force.codegen.packageName}"
      */
     private String packageName;
     
     /**
      * Destination directory for generated code.
-     * @parameter expression="${destinationDirectory}" default-value="${project.build.directory}/generated-sources"
+     * @parameter expression="${force.codegen.destDir}" default-value="${project.build.directory}/generated-sources"
      */
-    private File destinationDirectory;
+    private File destDir;
     
     /**
      * Whether to skip codegen execution.
@@ -105,8 +99,8 @@ public class CodeGenMojo extends AbstractMojo {
         
         int numGeneratedFiles;
         try {
-        	getLog().info("Generating Force.com JPA classes in " + destinationDirectory);
-            numGeneratedFiles = generator.generateCode(conn, destinationDirectory);
+        	getLog().info("Generating Force.com JPA classes in " + destDir);
+            numGeneratedFiles = generator.generateCode(conn, destDir);
         } catch (Exception e) {
         	getLog().error("Unable to generate JPA classes", e);
             return;
@@ -116,26 +110,8 @@ public class CodeGenMojo extends AbstractMojo {
     }
     
     ForceServiceConnector getConnector() throws MojoExecutionException {
-    	
-    	ForceServiceConnector connector;
-    	try {
-            if (connectionName != null) {
-                getLog().debug("Initializing connection to Force.com using named configuration '" + connectionName + "'");
-                connector = new ForceServiceConnector(connectionName);
-            } else if (connectionUrl != null) {
-                getLog().debug("Initializing connection to Force.com using connection url '" + connectionUrl + "'");
-                
-                ForceConnectorConfig config = new ForceConnectorConfig();
-                config.setConnectionUrl(connectionUrl);
-                connector = new ForceServiceConnector(config);
-            } else {
-                throw new MojoExecutionException("No connection configuration found. Please specify a named configuration or a connection url.");
-            }
-            
-            return connector;
-    	} catch (Exception e) {
-    	    throw new MojoExecutionException("Unable to initialize connection to Force.com", e);
-    	}
+        getLog().debug("Initializing connection to Force.com using named configuration '" + connectionName + "'");
+        return new ForceServiceConnector(connectionName);
     }
     
     boolean initFilters(ForceJPAClassGenerator generator) {
@@ -166,7 +142,7 @@ public class CodeGenMojo extends AbstractMojo {
             }
             
             if (objectFilter.getFilterList().isEmpty()) {
-                getLog().warn("No JPA classes generated. Please specify the schema object names or use -Dall");
+                getLog().warn("No JPA classes generated. Please specify the schema object names or use -Dforce.codegen.all");
                 return false;
             }
             
