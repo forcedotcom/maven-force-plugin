@@ -5,7 +5,7 @@
   <groupId>com.force</groupId>
   <artifactId>maven-force-plugin</artifactId>
   <name>maven-force-plugin</name>
-  <version>22.0.2-SNAPSHOT</version>
+  <version>22.0.4-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
   <description>Maven Plugin the Force.com platform</description>
   <url>http://www.force.com/</url>
@@ -23,34 +23,18 @@
   </properties>
   
   <distributionManagement>
-    <repository>
-      <id>force.repo</id>
-      <name>Force.com Repository</name>
-      <url>${force.repo.url}</url>
-    </repository>
     <snapshotRepository>
-      <id>force.repo.snapshot</id>
+      <id>sonatype-nexus-snapshots</id>
       <name>Force.com Snapshot Repository</name>
-      <url>${force.repo.snapshot.url}</url>
+      <url>${sonatype.nexus.snapshots.url}</url>
     </snapshotRepository>
   </distributionManagement>
   
   <repositories>
     <repository>
-      <id>force.repo</id>
-      <name>Force.com Repository</name>
-      <url>http://repo.t.salesforce.com/archiva/repository/releases</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-    </repository>
-    <repository>
-      <id>force.repo.snapshot</id>
+      <id>sonatype-nexus-snapshots</id>
       <name>Force.com Snapshot Repository</name>
-      <url>http://repo.t.salesforce.com/archiva/repository/snapshots</url>
+      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
       <snapshots>
         <enabled>true</enabled>
       </snapshots>
