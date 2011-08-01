@@ -20,6 +20,9 @@
   
   <properties>
     <java.compile.version>1.6</java.compile.version>
+    
+    <!-- Whether to fail a static analysis build when an error or warning is found -->
+    <staticAnalysis.failOnError>true</staticAnalysis.failOnError>
   </properties>
   
   <distributionManagement>
@@ -108,4 +111,49 @@
     </dependency>
   </dependencies>
   
+  <profiles>
+    <profile>
+      <id>license-check</id>
+      <activation>
+        <property>
+          <name>staticAnalysis</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.mycila.maven-license-plugin</groupId>
+            <artifactId>maven-license-plugin</artifactId>
+            <dependencies>
+              <dependency>
+                <groupId>com.force.sdk</groupId>
+                <artifactId>force-build-tools</artifactId>
+                <version>${project.version}</version>
+              </dependency>
+            </dependencies>
+            <configuration>
+              <header>license/header.txt</header>
+              <excludes>
+                <exclude>target/**</exclude>
+                <exclude>**/license/header.txt</exclude>
+                <exclude>**/*.md</exclude>
+                <exclude>**/.gitignore</exclude>
+              </excludes>
+              <failIfMissing>${staticAnalysis.failOnError}</failIfMissing>
+              <strictCheck>true</strictCheck>
+            </configuration>
+            <executions>
+              <execution>
+                <phase>test</phase>
+                <goals>
+                  <goal>check</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
