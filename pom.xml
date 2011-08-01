@@ -19,6 +19,7 @@
   </licenses>
   
   <properties>
+    <force.sdk.version>${project.version}</force.sdk.version>
     <java.compile.version>1.6</java.compile.version>
     
     <!-- Whether to fail a static analysis build when an error or warning is found -->
@@ -85,12 +86,12 @@
     <dependency>
       <groupId>com.force.sdk</groupId>
       <artifactId>force-codegen</artifactId>
-      <version>${project.version}</version>
+      <version>${force.sdk.version}</version>
     </dependency>
     <dependency>
       <groupId>com.force.sdk</groupId>
       <artifactId>force-connector</artifactId>
-      <version>${project.version}</version>
+      <version>${force.sdk.version}</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -129,7 +130,7 @@
               <dependency>
                 <groupId>com.force.sdk</groupId>
                 <artifactId>force-build-tools</artifactId>
-                <version>${project.version}</version>
+                <version>${force.sdk.version}</version>
               </dependency>
             </dependencies>
             <configuration>
