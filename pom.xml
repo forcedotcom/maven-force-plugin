@@ -5,7 +5,7 @@
   <groupId>com.force</groupId>
   <artifactId>maven-force-plugin</artifactId>
   <name>maven-force-plugin</name>
-  <version>22.0.4-SNAPSHOT</version>
+  <version>22.0.5-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
   <description>Maven Plugin the Force.com platform</description>
   <url>http://www.force.com/</url>
