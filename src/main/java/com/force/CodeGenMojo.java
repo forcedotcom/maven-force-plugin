@@ -103,10 +103,10 @@ public class CodeGenMojo extends AbstractMojo {
     
     public void execute() throws MojoExecutionException {
         
-    	if (skip) {
+        if (skip) {
             getLog().info("Skipping Force.com code generation.");
             return;
-    	}
+        }
         
         PartnerConnection conn;
         try {
@@ -125,10 +125,10 @@ public class CodeGenMojo extends AbstractMojo {
         
         int numGeneratedFiles;
         try {
-        	getLog().info("Generating Force.com JPA classes in " + destDir);
+            getLog().info("Generating Force.com JPA classes in " + destDir);
             numGeneratedFiles = generator.generateCode(conn, destDir);
         } catch (Exception e) {
-        	getLog().error("Unable to generate JPA classes", e);
+            getLog().error("Unable to generate JPA classes", e);
             return;
         }
         

@@ -19,6 +19,10 @@
   </licenses>
   
   <properties>
+    <force.version.min>22.0</force.version.min>
+    <force.version.max>22.1</force.version.max>
+    
+    <force.api.version>[${force.version.min}.0, ${force.version.max}.0)</force.api.version>
     <force.sdk.version>${project.version}</force.sdk.version>
     <java.compile.version>1.6</java.compile.version>
     
@@ -57,9 +61,48 @@
           <include>force-test-connection.properties</include>
         </includes>
       </testResource>
+      <testResource>
+        <directory>${basedir}/src/test/resources/</directory>
+        <includes>
+          <include>findbugs/findbugs-exclude.xml</include>
+        </includes>
+      </testResource>
     </testResources>
   
     <plugins>
+      <plugin>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>check-api-sdk-versions</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+
+            <!--
+            Ensure that the API and SDK versions have the proper
+            Force.com version boundaries.
+            -->
+            <configuration>
+              <rules>
+                <requireProperty>
+                  <property>force.api.version</property>
+                  <regex>^\[${force.version.min}.0, ${force.version.max}.0\)$</regex>
+                  <regexMessage>
+                    {force.api.version} be in the form [${force.version.min}.0, ${force.version.max}.0)
+                  </regexMessage>
+                </requireProperty>
+                <requireProperty>
+                  <property>force.sdk.version</property>
+                  <regex>^(${force.version.min}).(\d+)(-SNAPSHOT|-BETA)*$</regex>
+                  <regexMessage>{force.sdk.version} be in the form ${force.version.min}.d[-SNAPSHOT]</regexMessage>
+                </requireProperty>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
@@ -84,6 +127,11 @@
   
   <dependencies>
     <dependency>
+      <groupId>com.force.api</groupId>
+      <artifactId>force-partner-api</artifactId>
+      <version>${force.api.version}</version>
+    </dependency>
+    <dependency>
       <groupId>com.force.sdk</groupId>
       <artifactId>force-codegen</artifactId>
       <version>${force.sdk.version}</version>
@@ -92,6 +140,11 @@
       <groupId>com.force.sdk</groupId>
       <artifactId>force-connector</artifactId>
       <version>${force.sdk.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.collections</groupId>
+      <artifactId>google-collections</artifactId>
+      <version>1.0</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -156,5 +209,59 @@
         </plugins>
       </build>
     </profile>
+    
+    <profile>
+      <id>static-analysis</id>
+      <activation>
+        <property>
+          <name>staticAnalysis</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <!-- Maven dependency check -->
+          <plugin>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <configuration>
+              <failOnWarning>${staticAnalysis.failOnError}</failOnWarning>
+              <ignoreNonCompile>true</ignoreNonCompile>
+              <outputXML>true</outputXML>
+            </configuration>
+            <executions>
+              <execution>
+                <phase>verify</phase>
+                <goals>
+                  <goal>analyze-only</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          
+          <!-- Findbugs -->
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>findbugs-maven-plugin</artifactId>
+            <version>2.3.2</version>
+            <configuration>
+              <effort>Max</effort>
+              <excludeFilterFile>${project.build.testOutputDirectory}/findbugs/findbugs-exclude.xml</excludeFilterFile>
+              <failOnError>${staticAnalysis.failOnError}</failOnError>
+              <includeTests>true</includeTests>
+              <threshold>Default</threshold>
+            </configuration>
+            <executions>
+              <execution>
+                <phase>verify</phase>
+                <goals>
+                  <goal>check</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    
   </profiles>
 </project>
