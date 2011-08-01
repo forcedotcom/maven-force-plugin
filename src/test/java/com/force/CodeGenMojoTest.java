@@ -84,7 +84,7 @@ public class CodeGenMojoTest extends AbstractMojoTestCase {
         CodeGenMojo codeGenMojo = loadCodeGenMojo("BasicPom.xml");
         
         ForceServiceConnector connector = codeGenMojo.getConnector();
-        connector.getConnection();
+        assertEquals("Unexpected connection name", "force-test-connection", connector.getConnectionName());
     }
     
     @Test
