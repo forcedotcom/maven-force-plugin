@@ -88,7 +88,7 @@ To only include certain objects, use separate `<include>` elements:
 
 By default, the plugin follows all object references and generates all the necessary files so that generated source will compile. For example, the standard Contact entity has a relationship field to the Account entity. If you generate a Java class for the Contact entity, the code generator generates both Contact and Account classes, as well as classes for any other relationships for Contact.
 
-If you don't want to follow object references, set the `<followReferences>` element to `false`. You can use `<include>` elements to include any references that you do want to include.
+If you don't want to follow object references, set the `<followReferences>` element to `false`. You can use `<include>` elements for any references that you want to follow.
 
     <configuration>
       <connectionName>connname</connectionName>
