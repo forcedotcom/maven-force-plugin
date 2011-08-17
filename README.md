@@ -191,6 +191,6 @@ First mark the `force-test-connection.properties` file to be ignored by git:
     
 This follows our recommended best practices of not checking authentication credentials into source control.    
 
-Add Force.com database credentials to the `force-test-connection.propertie`s file and run:
+Add Force.com database credentials to the `force-test-connection.properties` file and run:
 
     mvn test
