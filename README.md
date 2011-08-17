@@ -113,7 +113,7 @@ To exclude certain objects:
 
 The default directory for generated Java source files is `src/main/java`. You can override the default by defining a `<destDir>` element.
 
-The default Java package name is `com.<orgNameDenormalized>.model`, where <orgNameDenormalized> is an identifier that is automatically created from your organization name. You can override the default by defining a `<packageName>` element.
+The default Java package name is `com.<orgNameDenormalized>.model`, where `<orgNameDenormalized>` is an identifier that is automatically created from your organization name. You can override the default by defining a `<packageName>` element.
 
     <configuration>
       <all>true</all>
