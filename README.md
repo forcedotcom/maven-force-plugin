@@ -3,7 +3,7 @@
 The Force.com Maven plugin enables you to generate Force.com JPA POJOs based on the objects already present in your Force.com organization.
 
 ##Configuring a Force.com Connection
-All plugin configurations require a Force.com connection name. We recommended using an environment variable for configuration. The environment variable name depends on the connection name. For more about connection names, see the [Database.com Java SDK](http://forcedotcom.github.com/java-sdk/connection-url).
+All plugin configurations require a Force.com connection name. We recommend using an environment variable for configuration. The environment variable name depends on the connection name. For more about connection names, see the [Database.com Java SDK](http://forcedotcom.github.com/java-sdk/connection-url).
 
 For example, if your connection name is `connName`, the associated environment variable must be `FORCE_CONNNAME_URL`.
 
