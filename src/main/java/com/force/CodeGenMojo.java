@@ -101,6 +101,9 @@ public class CodeGenMojo extends AbstractMojo {
      */
     private boolean skip;
     
+    /**
+     * {@inheritDoc}
+     */
     public void execute() throws MojoExecutionException {
         
         if (skip) {

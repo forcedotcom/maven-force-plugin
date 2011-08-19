@@ -60,7 +60,7 @@ The basic configuration requires a Force.com connection name that is referenced 
 **Note**: For an explanation of the `<all>` element, see the next configuration section.
 
 ##Configuring Force.com JPA Entities for Code Generation
-To configure POJO generation, add the following to your `pom.xml` file:
+To configure POJO generation, add the following to your `pom.xml` file under the Force.com Maven plugin:
 
     <executions>
       <execution>

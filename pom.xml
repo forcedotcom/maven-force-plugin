@@ -263,5 +263,77 @@
       </build>
     </profile>
     
+    <profile>
+      <id>package-for-deployment</id>
+      <activation>
+        <property>
+          <name>packageForDeployment</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+        
+          <plugin>
+            <artifactId>maven-source-plugin</artifactId>
+            <version>2.1.2</version>
+            <executions>
+              <execution>
+                <id>attach-source</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>jar-no-fork</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          
+          <plugin>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>2.7</version>
+            <executions>
+              <execution>
+                <id>attach-javadoc</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          
+        </plugins>
+      </build>
+    </profile>
+    
+    <profile>
+      <id>sign-artifacts</id>
+      <activation>
+        <property>
+          <name>signArtifacts</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+        
+          <plugin>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>1.2</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          
+        </plugins>
+      </build>
+    </profile>
+    
   </profiles>
 </project>
