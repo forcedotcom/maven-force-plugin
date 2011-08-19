@@ -118,9 +118,9 @@ This configuration generates classes for all objects excluding those listed in a
 
 **Note**: Your `<configuration>` element must include one of the following elements:
 
-    - `<all>true</all>`
-    - `<includes>`
-    - `<excludes>`
+* `<all>true</all>
+* `<includes>`
+* `<excludes>`
 
 The default directory for generated Java source files is `src/main/java`. You can override the default by defining a `<destDir>` element.
 
