@@ -24,25 +24,6 @@ On Windows:
     set FORCE_CONNNAME_URL=https://login.salesforce.com;user=<em>username</em>;password=<em>password</em>
     </code>
 </pre>
-    
-##Maven Repository
-The Force.com Maven plugin currently only has SNAPSHOT versions.  These are hosted on Salesforce.com's Maven repository.
-
-To use the repository, add the following to your `pom.xml` file:
-
-    <pluginRepositories>
-      <pluginRepository>
-        <id>force.repo.snapshot</id>
-        <name>Force.com Snapshot Repository</name>
-        <url>http://repo.t.salesforce.com/archiva/repository/snapshots</url>
-        <snapshots>
-          <enabled>true</enabled>
-        </snapshots>
-        <releases>
-          <enabled>false</enabled>
-        </releases>
-      </pluginRepository>
-    </pluginRepositories> 
 
 ##Basic Configuration
 The basic configuration requires a Force.com connection name that is referenced in the `<connectionName>` element in a `pom.xml` file.
@@ -50,7 +31,7 @@ The basic configuration requires a Force.com connection name that is referenced 
     <plugin>
       <groupId>com.force</groupId>
       <artifactId>maven-force-plugin</artifactId>
-      <version>22.0.2-SNAPSHOT</version>
+      <version>22.0.5-BETA</version>
       <configuration>
         <all>true</all>
         <connectionName>connname</connectionName>
@@ -165,7 +146,7 @@ The latter requires an opt-in strategy for running code generation.  Here's an e
           <plugin>
             <groupId>com.force</groupId>
             <artifactId>maven-force-plugin</artifactId>
-            <version>22.0.2-SNAPSHOT</version>
+            <version>22.0.5-BETA</version>
             <executions>
               <execution>
                 <id>generate-force-entities</id>
