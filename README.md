@@ -52,10 +52,13 @@ The basic configuration requires a Force.com connection name that is referenced 
       <artifactId>maven-force-plugin</artifactId>
       <version>22.0.2-SNAPSHOT</version>
       <configuration>
+        <all>true</all>
         <connectionName>connname</connectionName>
       </configuration>
     </plugin>
     
+**Note**: For an explanation of the `<all>` element, see the next configuraion section.
+
 ##Configuring Force.com JPA Entities for Code Generation
 To configure POJO generation, add the following to your `pom.xml` file:
 
@@ -110,6 +113,13 @@ To exclude certain objects:
         ...
       </excludes>
     </configuration>
+
+This configuration generates classes for all objects excluding those listed in an `<exclude>` element.
+
+**Note**: Your `<configuration>` element must include one of the following elements:
+- `<all>true</all>`
+- `<includes>`
+- `<excludes>`
 
 The default directory for generated Java source files is `src/main/java`. You can override the default by defining a `<destDir>` element.
 
