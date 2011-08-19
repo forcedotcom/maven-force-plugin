@@ -57,7 +57,7 @@ The basic configuration requires a Force.com connection name that is referenced 
       </configuration>
     </plugin>
     
-**Note**: For an explanation of the `<all>` element, see the next configuraion section.
+**Note**: For an explanation of the `<all>` element, see the next configuration section.
 
 ##Configuring Force.com JPA Entities for Code Generation
 To configure POJO generation, add the following to your `pom.xml` file:
@@ -71,14 +71,14 @@ To configure POJO generation, add the following to your `pom.xml` file:
       </execution>
     </executions>
 
-To generate POJOs for all objects in your organization, edit the `<configuration>` element:
+To generate POJOs for all objects in your organization, edit the `<configuration>` element to include `<all>true</all>`:
 
     <configuration>
       <all>true</all>
       <connectionName>connname</connectionName>
     </configuration>
     
-To only include certain objects, use separate `<include>` elements:
+To only include certain objects, use separate `<include>` elements instead:
 
     <configuration>
       <connectionName>connname</connectionName>
