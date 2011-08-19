@@ -21,7 +21,7 @@ On Windows:
 
 <pre>
     <code>
-    set FORCE_CONNNAME_URL=https://login.salesforce.com;user=username;password=password
+    set FORCE_CONNNAME_URL=https://login.salesforce.com;user=<em>username</em>;password=<em>password</em>
     </code>
 </pre>
     
@@ -118,7 +118,7 @@ This configuration generates classes for all objects excluding those listed in a
 
 **Note**: Your `<configuration>` element must include one of the following elements:
 
-* `<all>true</all>
+* `<all>true</all>`
 * `<includes>`
 * `<excludes>`
 
