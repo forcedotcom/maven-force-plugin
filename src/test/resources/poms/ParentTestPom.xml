@@ -49,7 +49,7 @@
             <dependency>
               <groupId>com.force</groupId>
               <artifactId>maven-force-plugin</artifactId>
-              <version>22.0.5-SNAPSHOT</version>
+              <version>22.0.5-BETA</version>
               <classifier>tests</classifier>
             </dependency>
           </dependencies>
