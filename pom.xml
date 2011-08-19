@@ -5,7 +5,7 @@
   <groupId>com.force</groupId>
   <artifactId>maven-force-plugin</artifactId>
   <name>maven-force-plugin</name>
-  <version>22.0.2-SNAPSHOT</version>
+  <version>22.0.5-BETA</version>
   <packaging>maven-plugin</packaging>
   <description>Maven Plugin the Force.com platform</description>
   <url>http://www.force.com/</url>
@@ -17,27 +17,59 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
+  <scm>
+    <url>https://github.com/forcedotcom/maven-force-plugin</url>
+    <connection>scm:git:git@github.com:forcedotcom/maven-force-plugin.git</connection>
+    <developerConnection>scm:git:git@github.com:forcedotcom/maven-force-plugin.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
+  <developers>
+    <!-- see mailing list -->
+    <developer>
+      <id>mailingList</id>
+      <name>mailingList</name>
+      <email>seemailinglist@force.com</email>
+    </developer>
+  </developers>
+  <mailingLists>
+    <mailingList>
+      <name>Force.com Maven Plugin Issues</name>
+      <archive>https://github.com/forcedotcom/maven-force-plugin/issues?state=closed</archive>
+      <subscribe>https://github.com/forcedotcom/maven-force-plugin/toggle_watch</subscribe>
+      <unsubscribe>https://github.com/forcedotcom/maven-force-plugin/toggle_watch</unsubscribe>
+      <post>https://github.com/forcedotcom/maven-force-plugin/issues/new</post>
+    </mailingList>
+  </mailingLists>
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/forcedotcom/maven-force-plugin/issues/new</url>
+  </issueManagement>
   
   <properties>
+    <force.version.min>22.0</force.version.min>
+    <force.version.max>22.1</force.version.max>
+    
+    <force.api.version>[${force.version.min}.0, ${force.version.max}.0)</force.api.version>
+    <force.sdk.version>${project.version}</force.sdk.version>
     <java.compile.version>1.6</java.compile.version>
+    
+    <!-- Whether to fail a static analysis build when an error or warning is found -->
+    <staticAnalysis.failOnError>true</staticAnalysis.failOnError>
   </properties>
+  
+  <distributionManagement>
+    <snapshotRepository>
+      <id>sonatype-nexus-snapshots</id>
+      <name>Force.com Snapshot Repository</name>
+      <url>${sonatype.nexus.snapshots.url}</url>
+    </snapshotRepository>
+  </distributionManagement>
   
   <repositories>
     <repository>
-      <id>force.repo</id>
-      <name>Force.com Repository</name>
-      <url>http://repo.t.salesforce.com/archiva/repository/releases</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-    </repository>
-    <repository>
-      <id>force.repo.snapshot</id>
+      <id>sonatype-nexus-snapshots</id>
       <name>Force.com Snapshot Repository</name>
-      <url>http://repo.t.salesforce.com/archiva/repository/snapshots</url>
+      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
       <snapshots>
         <enabled>true</enabled>
       </snapshots>
@@ -56,9 +88,48 @@
           <include>force-test-connection.properties</include>
         </includes>
       </testResource>
+      <testResource>
+        <directory>${basedir}/src/test/resources/</directory>
+        <includes>
+          <include>findbugs/findbugs-exclude.xml</include>
+        </includes>
+      </testResource>
     </testResources>
   
     <plugins>
+      <plugin>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>check-api-sdk-versions</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+
+            <!--
+            Ensure that the API and SDK versions have the proper
+            Force.com version boundaries.
+            -->
+            <configuration>
+              <rules>
+                <requireProperty>
+                  <property>force.api.version</property>
+                  <regex>^\[${force.version.min}.0, ${force.version.max}.0\)$</regex>
+                  <regexMessage>
+                    {force.api.version} be in the form [${force.version.min}.0, ${force.version.max}.0)
+                  </regexMessage>
+                </requireProperty>
+                <requireProperty>
+                  <property>force.sdk.version</property>
+                  <regex>^(${force.version.min}).(\d+)(-SNAPSHOT|-BETA)*$</regex>
+                  <regexMessage>{force.sdk.version} be in the form ${force.version.min}.d[-SNAPSHOT]</regexMessage>
+                </requireProperty>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
@@ -66,19 +137,41 @@
           <target>${java.compile.version}</target>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>jar-test-classes</id>
+            <goals>
+              <goal>test-jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
   
   <dependencies>
     <dependency>
+      <groupId>com.force.api</groupId>
+      <artifactId>force-partner-api</artifactId>
+      <version>${force.api.version}</version>
+    </dependency>
+    <dependency>
       <groupId>com.force.sdk</groupId>
       <artifactId>force-codegen</artifactId>
-      <version>${project.version}</version>
+      <version>${force.sdk.version}</version>
     </dependency>
     <dependency>
       <groupId>com.force.sdk</groupId>
       <artifactId>force-connector</artifactId>
-      <version>${project.version}</version>
+      <version>${force.sdk.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.collections</groupId>
+      <artifactId>google-collections</artifactId>
+      <version>1.0</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -99,4 +192,175 @@
     </dependency>
   </dependencies>
   
+  <profiles>
+    <profile>
+      <id>license-check</id>
+      <activation>
+        <property>
+          <name>staticAnalysis</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.mycila.maven-license-plugin</groupId>
+            <artifactId>maven-license-plugin</artifactId>
+            <dependencies>
+              <dependency>
+                <groupId>com.force.sdk</groupId>
+                <artifactId>force-build-tools</artifactId>
+                <version>${force.sdk.version}</version>
+              </dependency>
+            </dependencies>
+            <configuration>
+              <header>license/header.txt</header>
+              <excludes>
+                <exclude>target/**</exclude>
+                <exclude>**/license/header.txt</exclude>
+                <exclude>**/*.md</exclude>
+                <exclude>**/.gitignore</exclude>
+              </excludes>
+              <failIfMissing>${staticAnalysis.failOnError}</failIfMissing>
+              <strictCheck>true</strictCheck>
+            </configuration>
+            <executions>
+              <execution>
+                <phase>test</phase>
+                <goals>
+                  <goal>check</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    
+    <profile>
+      <id>static-analysis</id>
+      <activation>
+        <property>
+          <name>staticAnalysis</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <!-- Maven dependency check -->
+          <plugin>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <configuration>
+              <failOnWarning>${staticAnalysis.failOnError}</failOnWarning>
+              <ignoreNonCompile>true</ignoreNonCompile>
+              <outputXML>true</outputXML>
+            </configuration>
+            <executions>
+              <execution>
+                <phase>verify</phase>
+                <goals>
+                  <goal>analyze-only</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          
+          <!-- Findbugs -->
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>findbugs-maven-plugin</artifactId>
+            <version>2.3.2</version>
+            <configuration>
+              <effort>Max</effort>
+              <excludeFilterFile>${project.build.testOutputDirectory}/findbugs/findbugs-exclude.xml</excludeFilterFile>
+              <failOnError>${staticAnalysis.failOnError}</failOnError>
+              <includeTests>true</includeTests>
+              <threshold>Default</threshold>
+            </configuration>
+            <executions>
+              <execution>
+                <phase>verify</phase>
+                <goals>
+                  <goal>check</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    
+    <profile>
+      <id>package-for-deployment</id>
+      <activation>
+        <property>
+          <name>packageForDeployment</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+        
+          <plugin>
+            <artifactId>maven-source-plugin</artifactId>
+            <version>2.1.2</version>
+            <executions>
+              <execution>
+                <id>attach-source</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>jar-no-fork</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          
+          <plugin>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>2.7</version>
+            <executions>
+              <execution>
+                <id>attach-javadoc</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          
+        </plugins>
+      </build>
+    </profile>
+    
+    <profile>
+      <id>sign-artifacts</id>
+      <activation>
+        <property>
+          <name>signArtifacts</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+        
+          <plugin>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>1.2</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          
+        </plugins>
+      </build>
+    </profile>
+    
+  </profiles>
 </project>

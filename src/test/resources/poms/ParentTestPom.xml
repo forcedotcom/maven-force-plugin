@@ -28,28 +28,33 @@
 
 <project>
 
-  <parent>
-    <groupId>com.force.test</groupId>
-    <artifactId>ParentTestPom</artifactId>
-    <version>1.0</version>
-    <relativePath>./ParentTestPom.xml</relativePath>
-  </parent>
-
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.force.test</groupId>
-  <artifactId>Excludes</artifactId>
+  <artifactId>ParentTestPom</artifactId>
+  <version>1.0</version>
+  <packaging>pom</packaging>
 
   <build>
-    <plugins>
-      <plugin>
-        <groupId>com.force</groupId>
-        <artifactId>maven-force-plugin</artifactId>
-        <configuration>
-          <excludes>
-            <exclude>Account</exclude>
-          </excludes>
-        </configuration>
-      </plugin>
-    </plugins>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>com.force</groupId>
+          <artifactId>maven-force-plugin</artifactId>
+          <configuration>
+            <connectionName>force-test-connection</connectionName>
+          </configuration>
+        
+          <!-- Include this dependency so that we can load the named connection above -->
+          <dependencies>
+            <dependency>
+              <groupId>com.force</groupId>
+              <artifactId>maven-force-plugin</artifactId>
+              <version>22.0.5-BETA</version>
+              <classifier>tests</classifier>
+            </dependency>
+          </dependencies>
+        </plugin>
+      </plugins>
+    </pluginManagement>
   </build>
 </project>

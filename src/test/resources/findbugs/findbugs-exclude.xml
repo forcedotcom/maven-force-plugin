@@ -26,30 +26,10 @@
 
 -->
 
-<project>
-
-  <parent>
-    <groupId>com.force.test</groupId>
-    <artifactId>ParentTestPom</artifactId>
-    <version>1.0</version>
-    <relativePath>./ParentTestPom.xml</relativePath>
-  </parent>
-
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.force.test</groupId>
-  <artifactId>Excludes</artifactId>
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>com.force</groupId>
-        <artifactId>maven-force-plugin</artifactId>
-        <configuration>
-          <excludes>
-            <exclude>Account</exclude>
-          </excludes>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
-</project>
+<FindBugsFilter>
+  <Match>
+    <Class name="com.force.CodeGenMojoTest"/>
+    <Method name="deleteDestinationDirectory"/>
+    <Bug pattern="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE"/>
+  </Match>
+</FindBugsFilter>
