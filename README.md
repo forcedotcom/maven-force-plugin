@@ -11,7 +11,7 @@ On Mac or Linux:
 
 <pre>
     <code>
-    export FORCE_CONNNAME_URL=https://login.salesforce.com\;user=<em>username</em>\;password=<em>password</em>
+    export FORCE_CONNNAME_URL=force://login.salesforce.com\;user=<em>username</em>\;password=<em>password</em>
     </code>
 </pre>
 
@@ -21,7 +21,7 @@ On Windows:
 
 <pre>
     <code>
-    set FORCE_CONNNAME_URL=https://login.salesforce.com;user=<em>username</em>;password=<em>password</em>
+    set FORCE_CONNNAME_URL=force://login.salesforce.com;user=<em>username</em>;password=<em>password</em>
     </code>
 </pre>
 
